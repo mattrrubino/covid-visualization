@@ -1,0 +1,71 @@
+/* TODO: Fix graphs, removing outer edge */
+
+.graphs {
+    display: grid;
+    grid-gap: 0px;
+}
+
+.cases-line {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.cases-geo {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.deaths-line {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.deaths-geo {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.line-path {
+    fill: none;
+    stroke-width: 3px;
+    stroke-linecap: round;
+}
+
+.title {
+    font-family: sans-serif;
+    text-anchor: middle;
+    font-size: 2em;
+}
+
+.axis-label {
+    text-anchor: middle;
+    font-size: 3em;
+    color: black;
+    fill: black;
+}
+
+.selection-rect {
+    fill: none;
+    pointer-events: all;
+}
+
+.hover-text {
+    pointer-events: none;
+    text-shadow:
+        -1px -1px 3px white,
+        -1px 1px 3px white,
+        1px -1px 3px white,
+        -1px -1px 3px white;
+}
+
+.axis-label {
+    fill: #ababab;
+}
+
+.y-axis {
+    color: #ababab;
+}
+
+.x-axis {
+    color: #ababab;
+}

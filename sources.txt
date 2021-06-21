@@ -1,0 +1,6 @@
+NY Times - Github
+https://github.com/nytimes/covid-19-data
+
+Census Bureau
+https://www.census.gov/about/policies/citation.html
+https://eric.clst.org/tech/usgeojson/
