@@ -27,21 +27,25 @@ const graphs = d3.select('.graphs');
 const graphsHeight = +d3.select('.graphs').attr('height');
 const graphsWidth = +d3.select('.graphs').attr('width');
 
-const svgCasesLine = d3.select('.cases-line')
+const svgCasesLine = graphs.append('g')
+    .attr('class', 'cases-line')
     .attr('height', graphsHeight / 2)
     .attr('width', graphsWidth / 2);
 
-const svgCasesGeo = d3.select('.cases-geo')
+const svgCasesGeo = graphs.append('g')
+    .attr('class', 'cases-geo')
     .attr('height', graphsHeight / 2)
     .attr('width', graphsWidth / 2)
     .attr('transform', `translate(${graphsWidth / 2}, 0)`);
 
-const svgDeathsLine = d3.selectAll('.deaths-line')
+const svgDeathsLine = graphs.append('g')
+    .attr('class', 'deaths-line')
     .attr('height', graphsHeight / 2)
     .attr('width', graphsWidth / 2)
     .attr('transform', `translate(0, ${graphsHeight / 2})`);
 
-const svgDeathsGeo = d3.select('.deaths-geo')
+const svgDeathsGeo = graphs.append('g')
+    .attr('class', 'deaths-geo')
     .attr('height', graphsHeight / 2)
     .attr('width', graphsWidth / 2)
     .attr('transform', `translate(${graphsWidth / 2}, ${graphsHeight / 2})`);
