@@ -1,8 +1,6 @@
-// TODO:
-// Dynamically resize graph
-// Dynamically resize text
-// Change tick count as graph shrinks
-// Dynamic margin?
+import { loadAndProcessData } from './loadAndProcessData.js';
+import { lineChart } from './lineChart.js';
+import { geoMap } from './geoMap.js';
 
 let usData;
 let usStatesData;

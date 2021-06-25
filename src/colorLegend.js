@@ -1,4 +1,4 @@
-const colorLegend = (selection, props) => {
+export const colorLegend = (selection, props) => {
     const {
         height,
         width,

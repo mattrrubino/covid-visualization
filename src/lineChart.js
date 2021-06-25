@@ -1,4 +1,4 @@
-const lineChart = (selection, props) => {
+export const lineChart = (selection, props) => {
     const {
         margin,
         xValue,

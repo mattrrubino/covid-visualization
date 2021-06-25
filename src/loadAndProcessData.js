@@ -1,6 +1,6 @@
 const ROLLING_AVERAGE = 20;
 
-const loadAndProcessData = () => Promise.all([
+export const loadAndProcessData = () => Promise.all([
         d3.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv"),
         d3.csv("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv"),
         d3.json("https://raw.githubusercontent.com/mattrrubino/covid-visualization/main/us_geo.json")

@@ -1,6 +1,8 @@
+import { colorLegend } from './colorLegend.js';
+
 const selectedDataMap = new Map();
 
-const geoMap = (selection, props) => {
+export const geoMap = (selection, props) => {
     const {
         margin,
         xValue,
