@@ -10,6 +10,7 @@ let usStatesDataFlat;
 let usGeo;
 
 let selectedData;
+let selecting;
 
 loadAndProcessData().then(data => {
     usData = data.usData;
@@ -17,28 +18,49 @@ loadAndProcessData().then(data => {
     usStatesDataFlat = Array.from(usStatesData, ([_, value]) => value).flat();
     usGeo = data.usGeo;
 
+    selectedData = usData[0];
+    selecting = true;
+
     render();
 });
 
-//#region Initialize window
-const windowHeight = window.innerHeight;
-const windowWidth = window.innerWidth;
+//#region Initialize visualization
+const graphs = d3.select('.graphs');
+const graphsHeight = +d3.select('.graphs').attr('height');
+const graphsWidth = +d3.select('.graphs').attr('width');
 
 const svgCasesLine = d3.select('.cases-line')
-    .attr('height', windowHeight / 2)
-    .attr('width', windowWidth / 2);
+    .attr('height', graphsHeight / 2)
+    .attr('width', graphsWidth / 2);
 
 const svgCasesGeo = d3.select('.cases-geo')
-    .attr('height', windowHeight / 2)
-    .attr('width', windowWidth / 2);
+    .attr('height', graphsHeight / 2)
+    .attr('width', graphsWidth / 2)
+    .attr('transform', `translate(${graphsWidth / 2}, 0)`);
 
 const svgDeathsLine = d3.selectAll('.deaths-line')
-    .attr('height', windowHeight / 2)
-    .attr('width', windowWidth / 2);
+    .attr('height', graphsHeight / 2)
+    .attr('width', graphsWidth / 2)
+    .attr('transform', `translate(0, ${graphsHeight / 2})`);
 
 const svgDeathsGeo = d3.select('.deaths-geo')
-    .attr('height', windowHeight / 2)
-    .attr('width', windowWidth / 2);
+    .attr('height', graphsHeight / 2)
+    .attr('width', graphsWidth / 2)
+    .attr('transform', `translate(${graphsWidth / 2}, ${graphsHeight / 2})`);
+
+const scaleGraphs = () => {
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+
+    const scale = Math.min(windowWidth / graphsWidth, windowHeight / graphsHeight);
+    const xTranslate = graphsWidth * (scale-1) / 2;
+    const yTranslate = graphsHeight * (scale-1) / 2;
+
+    graphs.attr('transform', `translate(${xTranslate}, ${yTranslate}) scale(${scale})`);
+}
+
+window.addEventListener('resize', scaleGraphs);
+scaleGraphs();
 //#endregion
 
 //#region General attributes
@@ -48,6 +70,15 @@ const deathsValue = d => d.deaths;
 //#endregion
 
 //#region Line chart attributes
+const setSelectedData = d => {
+    selectedData = d;
+    render();
+}
+const setSelecting = d => {
+    selecting = d;
+    render();
+}
+
 const dateOptions = { month: 'short', year: '2-digit' }
 const dateFormat = new Intl.DateTimeFormat('en-US', dateOptions);
 
@@ -85,7 +116,7 @@ const render = () => {
 
 
     svgCasesLine.call(lineChart, {
-        margin: {top: 75, right: 100, bottom: 100, left: 100},
+        margin: {top: 30, right: 50, bottom: 50, left: 70},
         xValue: timeValue,
         xAxisLabel: "Date",
         xScale: timeScale,
@@ -97,17 +128,22 @@ const render = () => {
         formatY: d => d3.format('.2s')(d).replace('.0', ''),
         formatYHover: d3.format('.3s'),
         title: "US COVID Cases Over Time",
-        setSelectedData: d => selectedData = d,
+        setSelectedData: setSelectedData,
         selectedData: selectedData,
+        setSelecting: setSelecting,
+        selecting: selecting,
         lineColor: 'red',
         data: usData
     });
 
     svgCasesGeo.call(geoMap, {
-        margin: {top: 50, right: 50, bottom: 100, left: 50},
+        margin: {top: 20, right: 100, bottom: 20, left: 0},
         xValue: timeValue,
+        xFormat: hoverDateFormat.format,
         colorValue: casesValue,
         colorScale: casesColorScale,
+        colorLabel: "New Cases",
+        colorFormat: d => d3.format('.2s')(Math.round(+d)),
         geoGenerator: geoGenerator,
         geoName: geoName,
         geoRegion: geoRegion,
@@ -117,7 +153,7 @@ const render = () => {
     });
 
     svgDeathsLine.call(lineChart, {
-        margin: {top: 75, right: 100, bottom: 100, left: 100},
+        margin: {top: 30, right: 50, bottom: 50, left: 70},
         xValue: timeValue,
         xAxisLabel: "Date",
         xScale: timeScale,
@@ -129,17 +165,22 @@ const render = () => {
         formatY: d => d3.format('.2s')(d).replace('.0', ''),
         formatYHover: d3.format('.3s'),
         title: "US COVID Deaths Over Time",
-        setSelectedData: d => selectedData = d,
+        setSelectedData: setSelectedData,
         selectedData: selectedData,
+        setSelecting: setSelecting,
+        selecting: selecting,
         lineColor: 'blue',
         data: usData
     });
 
     svgDeathsGeo.call(geoMap, {
-        margin: {top: 50, right: 50, bottom: 100, left: 50},
+        margin: {top: 20, right: 100, bottom: 20, left: 0},
         xValue: timeValue,
+        xFormat: hoverDateFormat.format,
         colorValue: deathsValue,
         colorScale: deathsColorScale,
+        colorLabel: "New Deaths",
+        colorFormat: d => d3.format('.2s')(Math.round(+d)),
         geoGenerator: geoGenerator,
         geoName: geoName,
         geoRegion: geoRegion,
@@ -149,6 +190,3 @@ const render = () => {
     });
 
 };
-
-// Do window resize here
-// window.addEventListener('resize', () => console.log('resized'));

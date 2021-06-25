@@ -14,6 +14,8 @@ const lineChart = (selection, props) => {
         title,
         setSelectedData,
         selectedData,
+        selecting,
+        setSelecting,
         lineColor,
         data
     } = props;
@@ -39,7 +41,7 @@ const lineChart = (selection, props) => {
 
     const xAxisG = lineChart.selectAll('.x-axis');
     const xAxisGEnter = lineChartEnter.append('g')
-        .attr('class', 'x-axis')
+        .attr('class', 'x-axis noselect')
         .attr('transform', `translate(0, ${innerHeight})`);
 
     xAxisGEnter.merge(xAxisG)
@@ -49,7 +51,7 @@ const lineChart = (selection, props) => {
 
     xAxisGEnter.append('text')
         .attr('class', 'axis-label')
-        .attr('transform', `translate(${innerWidth / 2}, 60)`)
+        .attr('transform', `translate(${innerWidth / 2}, 30)`)
         .text(xAxisLabel);
     //#endregion
 
@@ -60,7 +62,7 @@ const lineChart = (selection, props) => {
 
     const yAxisG = lineChart.selectAll('.y-axis');
     const yAxisGEnter = lineChartEnter.append('g')
-        .attr('class', 'y-axis');
+        .attr('class', 'y-axis noselect');
 
     yAxisGEnter.merge(yAxisG)
         .call(yAxis)
@@ -68,8 +70,8 @@ const lineChart = (selection, props) => {
             .remove();
 
     yAxisGEnter.append('text')
-        .attr('class', 'axis-label')
-        .attr('transform', `rotate(-90) translate(${-innerHeight / 2}, -50)`)
+        .attr('class', 'axis-label noselect')
+        .attr('transform', `rotate(-90) translate(${-innerHeight / 2}, -30)`)
         .text(yAxisLabel);
     //#endregion
 
@@ -77,7 +79,7 @@ const lineChart = (selection, props) => {
     const lineGenerator = d3.line()
         .x(d => xScale(xValue(d)))
         .y(d => yScale(yValue(d)))
-        .curve(d3.curveBasis);
+        .curve(d3.curveBasis)
 
     const linePath = lineChart.selectAll('.line-path');
     const linePathEnter = lineChartEnter.append('path')
@@ -89,9 +91,9 @@ const lineChart = (selection, props) => {
     //#region Create title
     lineChartEnter.append('text')
         .merge(lineChart.selectAll('.title'))
-            .attr('class', 'title')
+            .attr('class', 'title noselect')
             .attr('x', innerWidth / 2)
-            .attr('y', -25)
+            .attr('y', -10)
             .text(title);
     //#endregion
 
@@ -99,18 +101,27 @@ const lineChart = (selection, props) => {
     //#region Create hover information
     const bisect = d3.bisector(xValue).left;
 
+    const updateSelectedData = e => {
+        const mouseX = d3.pointer(e)[0];
+        const x = xScale.invert(mouseX);
+        const i = bisect(data, x, 1);
+
+        if (data[i] != null)
+            setSelectedData(data[i]);
+    }
+
     lineChartEnter.append('rect')
         .attr('width', innerWidth)
         .attr('height', innerHeight)
         .attr('class', 'selection-rect')
         .merge(lineChart.selectAll('.selection-rect'))
+            .on('click', e => {
+                setSelecting(!selecting);
+                updateSelectedData(e);
+            })
             .on('mousemove', e => {
-                const mouseX = d3.pointer(e)[0];
-                const x = xScale.invert(mouseX);
-                const i = bisect(data, x, 1);
-
-                setSelectedData(data[i]);
-                render();
+                if (selecting)
+                    updateSelectedData(e);
             });
 
     const hoverCircleG = lineChart.selectAll('.hover');
@@ -126,14 +137,15 @@ const lineChart = (selection, props) => {
         });
     
     hoverCircleGEnter.append('circle')
-        .attr('fill', lineColor)
-        .attr('opacity', 0.5)
+        .attr('pointer-events', 'none')
         .merge(hoverCircleG.selectAll('circle'))
+            .attr('fill', selecting ? lineColor : 'black')
+            .attr('opacity', selecting ? 0.5 : 1.0)
             .attr('r', selectedData ? 5 : 0)
 
     const hoverText = hoverCircleG.selectAll('.hover-text');
     const hoverTextEnter = hoverCircleGEnter.append('text')
-        .attr('class', 'hover-text')
+        .attr('class', 'hover-text noselect')
         .attr('transform', `translate(10, 0)`);
 
     hoverTextEnter.merge(hoverText)
@@ -148,7 +160,7 @@ const lineChart = (selection, props) => {
     hoverTextEnter.append('tspan')
         .attr('class', 'y-hover-text')
         .attr('x', 0)
-        .attr('dy', 18)
+        .attr('dy', 12)
         .merge(hoverText.selectAll('.y-hover-text'))
             .text(yAxisLabel + ': ' + formatYHover(yValue(selectedData ?? data[0])));
     //#endregion

@@ -1,8 +1,7 @@
-/* TODO: Fix graphs, removing outer edge */
+/* TODO: Fix overflow w/o body */
 
-.graphs {
-    display: grid;
-    grid-gap: 0px;
+body {
+    overflow: hidden;
 }
 
 .cases-line {
@@ -34,12 +33,12 @@
 .title {
     font-family: sans-serif;
     text-anchor: middle;
-    font-size: 2em;
+    font-size: 16pt;
 }
 
 .axis-label {
     text-anchor: middle;
-    font-size: 3em;
+    font-size: 12pt;
     color: black;
     fill: black;
 }
@@ -51,11 +50,21 @@
 
 .hover-text {
     pointer-events: none;
+    font-size: 8pt;
     text-shadow:
         -1px -1px 3px white,
         -1px 1px 3px white,
         1px -1px 3px white,
         -1px -1px 3px white;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .axis-label {
@@ -68,4 +77,8 @@
 
 .x-axis {
     color: #ababab;
+}
+
+.legend-box {
+    font-size: 16pt;
 }

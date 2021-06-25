@@ -1,12 +1,14 @@
-// TODO:
-// Add legend for scale
+const selectedDataMap = new Map();
 
 const geoMap = (selection, props) => {
     const {
         margin,
         xValue,
+        xFormat,
         colorValue,
         colorScale,
+        colorLabel,
+        colorFormat,
         geoGenerator,
         geoName,
         geoRegion,
@@ -24,6 +26,13 @@ const geoMap = (selection, props) => {
     const geoGEnter = geoG.enter().append('g')
         .attr('class', 'geo-graph');
 
+    const bisect = d3.bisector(xValue).left;
+    groupedData.forEach((v, k) => {
+        const i = bisect(v, xValue(selectedData ?? v[0]), 1);
+
+        selectedDataMap.set(k, v[i] ?? v[v.length-1]);
+    });
+
     //#region Create map
     const map = geoGEnter.merge(geoG).selectAll('.region').data(geoData.features);
     const mapEnter = map.enter().append('path')
@@ -31,15 +40,17 @@ const geoMap = (selection, props) => {
         .attr('title', geoName)
         .attr('d', geoGenerator);
 
-    const bisect = d3.bisector(xValue).left;
+    mapEnter.append('title');
 
     mapEnter.merge(map)
         .attr('fill', d => {
-            const regionData = groupedData.get(geoRegion(d));
-            const i = bisect(regionData, xValue(selectedData ?? regionData[0]), 1);
-            
-            return colorScale(colorValue(regionData[i] ?? regionData[regionData.length-1]));
-        });
+            return colorScale(colorValue(selectedDataMap.get(geoRegion(d))));
+        })
+        .select('title')
+            .text(d => {
+                const value = '' + colorValue(selectedDataMap.get(geoRegion(d)));
+                return xFormat(xValue(selectedData)) + '\n' + geoName(d) + '\n' + colorLabel + ': ' + colorFormat(value);
+            });
     //#endregion
 
     //#region Adjust graph scale
@@ -53,5 +64,15 @@ const geoMap = (selection, props) => {
         .attr('transform', `translate(${margin.left}, ${margin.top}) scale(${scale})`);
     //#endregion
 
-    // Legend here
+    //#region Create color legend
+    geoGEnter.append('g')
+        .call(colorLegend, {
+            height: 200,
+            width: 40,
+            colorScale: colorScale,
+            colorLabel: colorLabel,
+            colorFormat: colorFormat
+        })
+        .attr('transform', `translate(${width*2}, ${innerHeight / 2})`);
+    //#endregion
 };

@@ -6,14 +6,15 @@
         <script src="https://d3js.org/d3.v7.min.js"></script>
     </head>
     <body>
-        <div class='graphs'>
-            <svg class='cases-line'></svg>
-            <svg class='cases-geo'></svg>
-            <svg class='deaths-line'></svg>
-            <svg class='deaths-geo'></svg>
-        </div>
+        <svg class='graphs' width='960' height='540'>
+            <g class='cases-line'></g>
+            <g class='cases-geo'></g>
+            <g class='deaths-line'></g>
+            <g class='deaths-geo'></g>
+        </svg>
         <script src="loadAndProcessData.js"></script>
         <script src="lineChart.js"></script>
+        <script src="colorLegend.js"></script>
         <script src="geoMap.js"></script>
         <script src="index.js"></script>
     </body>
