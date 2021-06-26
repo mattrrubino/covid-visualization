@@ -1,6 +1,7 @@
 import { loadAndProcessData } from './loadAndProcessData.js';
 import { lineChart } from './lineChart.js';
 import { geoMap } from './geoMap.js';
+import './style.css';
 
 let usData;
 let usStatesData;
