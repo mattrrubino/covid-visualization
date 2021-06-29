@@ -4,11 +4,13 @@ export const lineChart = (selection, props) => {
         xValue,
         xAxisLabel,
         xScale,
+        xTicks,
         formatX,
         formatXHover,
         yValue,
         yAxisLabel,
         yScale,
+        yTicks,
         formatY,
         formatYHover,
         title,
@@ -36,6 +38,7 @@ export const lineChart = (selection, props) => {
 
     //#region Create x-axis
     const xAxis = d3.axisBottom(xScale.range([0, innerWidth]))
+        .ticks(xTicks)
         .tickSize(-innerHeight)
         .tickFormat(formatX);
 
@@ -57,6 +60,7 @@ export const lineChart = (selection, props) => {
 
     //#region Create y-axis
     const yAxis = d3.axisLeft(yScale.range([innerHeight, 0]))
+        .ticks(yTicks)
         .tickSize(-innerWidth)
         .tickFormat(formatY);
 

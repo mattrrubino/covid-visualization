@@ -82,7 +82,7 @@ const setSelecting = d => {
     render();
 }
 
-const dateOptions = { month: 'short', year: '2-digit' }
+const dateOptions = { month: 'short' }
 const dateFormat = new Intl.DateTimeFormat('en-US', dateOptions);
 
 const hoverDateOptions = { month: 'short', day: '2-digit' };
@@ -119,15 +119,17 @@ const render = () => {
 
 
     svgCasesLine.call(lineChart, {
-        margin: {top: 30, right: 50, bottom: 50, left: 70},
+        margin: {top: 30, right: 10, bottom: 50, left: 45},
         xValue: timeValue,
         xAxisLabel: "Date",
         xScale: timeScale,
-        formatX: dateFormat.format,
+        xTicks: 14,
+        formatX: d => dateFormat.format(d).substring(0, 1) + d.getFullYear().toString().substring(2),
         formatXHover: hoverDateFormat.format,
         yValue: casesValue,
         yAxisLabel: "Cases",
         yScale: casesScale,
+        yTicks: 8,
         formatY: d => d3.format('.2s')(d).replace('.0', ''),
         formatYHover: d3.format('.3s'),
         title: "US COVID Cases Over Time",
@@ -140,7 +142,7 @@ const render = () => {
     });
 
     svgCasesGeo.call(geoMap, {
-        margin: {top: 20, right: 100, bottom: 20, left: 0},
+        margin: {top: 20, right: 100, bottom: 0, left: 0},
         xValue: timeValue,
         xFormat: hoverDateFormat.format,
         colorValue: casesValue,
@@ -156,15 +158,17 @@ const render = () => {
     });
 
     svgDeathsLine.call(lineChart, {
-        margin: {top: 30, right: 50, bottom: 50, left: 70},
+        margin: {top: 30, right: 10, bottom: 50, left: 45},
         xValue: timeValue,
         xAxisLabel: "Date",
         xScale: timeScale,
-        formatX: dateFormat.format,
+        xTicks: 14,
+        formatX: d => dateFormat.format(d).substring(0, 1) + d.getFullYear().toString().substring(2),
         formatXHover: hoverDateFormat.format,
         yValue: deathsValue,
         yAxisLabel: "Deaths",
         yScale: deathsScale,
+        yTicks: 8,
         formatY: d => d3.format('.2s')(d).replace('.0', ''),
         formatYHover: d3.format('.3s'),
         title: "US COVID Deaths Over Time",
@@ -177,7 +181,7 @@ const render = () => {
     });
 
     svgDeathsGeo.call(geoMap, {
-        margin: {top: 20, right: 100, bottom: 20, left: 0},
+        margin: {top: 20, right: 100, bottom: 0, left: 0},
         xValue: timeValue,
         xFormat: hoverDateFormat.format,
         colorValue: deathsValue,
