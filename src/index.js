@@ -11,6 +11,8 @@ let usGeo;
 let selectedData;
 let selecting;
 
+const loadingBar = d3.select('.loading')
+
 loadAndProcessData().then(data => {
     usData = data.usData;
     usStatesData = data.usStatesData;
@@ -19,6 +21,8 @@ loadAndProcessData().then(data => {
 
     selectedData = usData[0];
     selecting = true;
+
+    loadingBar.remove();
 
     render();
 });
@@ -119,7 +123,7 @@ const render = () => {
 
 
     svgCasesLine.call(lineChart, {
-        margin: {top: 30, right: 10, bottom: 50, left: 45},
+        margin: {top: 40, right: 10, bottom: 40, left: 50},
         xValue: timeValue,
         xAxisLabel: "Date",
         xScale: timeScale,
@@ -158,7 +162,7 @@ const render = () => {
     });
 
     svgDeathsLine.call(lineChart, {
-        margin: {top: 30, right: 10, bottom: 50, left: 45},
+        margin: {top: 40, right: 10, bottom: 40, left: 50},
         xValue: timeValue,
         xAxisLabel: "Date",
         xScale: timeScale,
