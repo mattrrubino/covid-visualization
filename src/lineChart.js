@@ -143,7 +143,7 @@ export const lineChart = (selection, props) => {
     hoverCircleGEnter.append('circle')
         .attr('pointer-events', 'none')
         .merge(hoverCircleG.selectAll('circle'))
-            .attr('fill', selecting ? lineColor : 'white')
+            .attr('fill', selecting ? lineColor : '#dbdbdb')
             .attr('opacity', selecting ? 0.5 : 1.0)
             .attr('r', selectedData ? 5 : 0)
 
