@@ -60,8 +60,8 @@ const scaleGraphs = () => {
     const windowWidth = window.innerWidth;
 
     const scale = Math.min(windowWidth / graphsWidth, windowHeight / graphsHeight);
-    const xTranslate = graphsWidth * (scale-1) / 2 + (windowWidth - graphsWidth * scale) / 2;
-    const yTranslate = graphsHeight * (scale-1) / 2 + (windowHeight - graphsHeight * scale) / 2;
+    const xTranslate = (windowWidth - graphsWidth * scale) / 2;
+    const yTranslate = (windowHeight - graphsHeight * scale) / 2;
 
     graphs.attr('transform', `translate(${xTranslate}, ${yTranslate}) scale(${scale})`);
 }
