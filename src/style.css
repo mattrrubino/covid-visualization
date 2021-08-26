@@ -37,13 +37,13 @@ body {
     font-family: sans-serif;
     text-anchor: middle;
     font-size: 16pt;
+    fill: white;
 }
 
 .axis-label {
     text-anchor: middle;
     font-size: 12pt;
-    color: black;
-    fill: black;
+    fill: white;
 }
 
 .selection-rect {
@@ -53,12 +53,13 @@ body {
 
 .hover-text {
     pointer-events: none;
+    fill: white;
     font-size: 8pt;
     text-shadow:
-        -1px -1px 3px white,
-        -1px 1px 3px white,
-        1px -1px 3px white,
-        -1px -1px 3px white;
+        -1px -1px 3px #141414,
+        -1px 1px 3px #141414,
+        1px -1px 3px #141414,
+        -1px -1px 3px #141414;
 }
 
 .noselect {
@@ -68,10 +69,6 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-}
-
-.axis-label {
-    fill: #ababab;
 }
 
 .y-axis {
@@ -84,6 +81,10 @@ body {
 
 .legend-box {
     font-size: 16pt;
+}
+
+.tick text {
+    fill: #ababab;
 }
 
 .loading {
