@@ -34,7 +34,7 @@ export const colorLegend = (selection, props) => {
     //#region Create legend box
     const legendBoxGEnter = legendGEnter.append('g')
         .attr('class', 'legend-box')
-        .attr('transform', 'translate(-20, 20)');
+        .attr('transform', 'translate(-25, 20)');
 
     const legendRectEnter = legendBoxGEnter.append('rect')
         .attr('class', 'legend-rect')
@@ -42,7 +42,7 @@ export const colorLegend = (selection, props) => {
         .attr('width', width)
         .attr('fill', `url("#${colorLabel + ' Gradient'}")`);
 
-    const legendScale = d3.scaleLinear()
+    const legendScale = d3.scaleSqrt()
         .domain(colorScale.domain())
         .range([height, 0])
         .nice();
