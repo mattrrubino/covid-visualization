@@ -69,12 +69,12 @@ export const geoMap = (selection, props) => {
     //#region Create color legend
     geoGEnter.append('g')
         .call(colorLegend, {
-            height: 200,
-            width: 40,
+            height: 450,
+            width: 60,
             colorScale: colorScale,
             colorLabel: colorLabel,
             colorFormat: colorFormat
         })
-        .attr('transform', `translate(${width*2}, ${innerHeight / 2})`);
+        .attr('transform', `translate(${width*2}, 0)`);
     //#endregion
 };

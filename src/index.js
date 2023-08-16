@@ -114,10 +114,10 @@ const render = () => {
         .domain([0, d3.max(usData, deathsValue)])
         .nice();
 
-    const casesColorScale = d3.scaleSequential()
+    const casesColorScale = d3.scaleSequentialSqrt()
         .domain([0, d3.max(usStatesDataFlat, casesValue)])
         .interpolator(d3.interpolateReds);
-    const deathsColorScale = d3.scaleSequential()
+    const deathsColorScale = d3.scaleSequentialSqrt()
         .domain([0, d3.max(usStatesDataFlat, deathsValue)])
         .interpolator(d3.interpolateBlues);
 
