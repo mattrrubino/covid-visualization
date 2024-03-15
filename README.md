@@ -4,7 +4,7 @@ This repository contains the source code for a visualization of the [New York Ti
 
 ## Usage
 
-To access the visualization, you can either [view it on my personal website](https://www.matthewrubino.com/covid-19-visualization) or run the following commands to start the visualization on your local machine:
+To access the visualization, you can either [view it on my personal website](https://www.matthewrubino.com/projects/covid) or run the following commands to start the visualization on your local machine:
 
 1. `git clone https://github.com/mattrrubino/covid-visualization.git`
 2. `cd covid-visualization`
